@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Profile, Tweets
 from django.contrib import messages
-from .forms import TweetForm
+from .forms import TweetForm, SignUpForm
 from django.contrib.auth import authenticate, login, logout
 
 def home(request):
@@ -66,3 +66,38 @@ def logout_user(request):
     logout(request)
     messages.success(request,('You have logged out!'))
     return redirect('home')
+
+def register_user(request):
+    form = SignUpForm()
+    if request.method== 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+
+            user = authenticate(username = username, password= password)
+            login(request,user)
+            messages.success(request,('Wellcome to Twitter!'))
+            return redirect('home')
+    
+    return render(request, 'register.html',{'form':form})
+
+# def register_user(request):
+# 	form = SignUpForm()
+# 	if request.method == "POST":
+# 		form = SignUpForm(request.POST)
+# 		if form.is_valid():
+# 			form.save()
+# 			username = form.cleaned_data['username']
+# 			password = form.cleaned_data['password1']
+# 			# first_name = form.cleaned_data['first_name']
+# 			# second_name = form.cleaned_data['second_name']
+# 			# email = form.cleaned_data['email']
+# 			# Log in user
+# 			user = authenticate(username=username, password=password)
+# 			login(request,user)
+# 			messages.success(request, ("You have successfully registered! Welcome!"))
+# 			return redirect('home')
+	
+# 	return render(request, "register.html", {'form':form})
