@@ -10,8 +10,14 @@
 <div class="card mb-3 text-bg-dark" style="max-width: 540px;">
     <div class="row g-0">
         <div class="col-md-4">
-            <a href="{% url 'profile' profile.user.id %}"><img src="{% static 'images/naol.png' %}"
+            {% if profile.profile_image %}
+            <a href="{% url 'profile' profile.user.id %}"><img src="{{ profile.profile_image.url }}"
+                    class="img-fluid rounded-start" alt="Profile Image" style="height: 180px; width: 200px;"></a>
+            {% else %}
+            <a href="{% url 'profile' profile.user.id %}"><img src="{% static 'images/default.jpg' %}"
                     class="img-fluid rounded-start" alt="Profile Image"></a>
+            {% endif %}
+
         </div>
         <div class="col-md-8">
             <div class="card-body">

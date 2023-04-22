@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
 <div class="row">
@@ -9,7 +9,26 @@
         <br>
         {% for tweet in tweets %}
         <div class="card border-light text-bg-dark" style="width: 50rem; margin-left: 2rem;">
-            <div class="card-header fw-bold">@{{ tweet.user }}</div>
+            <div class="card-header fw-bold">
+                <div class="row">
+
+                    <div class="col-11">
+
+                        @{{ tweet.user }}
+                    </div>
+
+
+                    <div class="col-1">{% if tweet.user.profile.profile_image %}
+                        <img src="{{ tweet.user.profile.profile_image.url }}" alt="Profile Picture"
+                            style="width: 50px; height: 50px; border: 1px solid white;" class="rounded-circle">
+                        {% else %}
+
+                        <img src="{% static 'images/default.jpg' %}" alt="Profile Picture"
+                            style="width: 50px; height: 50px;  border: 1px solid white; " class="rounded-circle">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
                 <p class="card-text">{{ tweet.body }}</p>
             </div>
