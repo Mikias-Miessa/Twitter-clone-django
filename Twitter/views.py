@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Profile, Tweets
 from django.contrib import messages
-from .forms import TweetForm, SignUpForm
+from .forms import TweetForm, SignUpForm,ProfilePictureForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 def home(request):
     if request.user.is_authenticated:
@@ -83,21 +84,21 @@ def register_user(request):
     
     return render(request, 'register.html',{'form':form})
 
-# def register_user(request):
-# 	form = SignUpForm()
-# 	if request.method == "POST":
-# 		form = SignUpForm(request.POST)
-# 		if form.is_valid():
-# 			form.save()
-# 			username = form.cleaned_data['username']
-# 			password = form.cleaned_data['password1']
-# 			# first_name = form.cleaned_data['first_name']
-# 			# second_name = form.cleaned_data['second_name']
-# 			# email = form.cleaned_data['email']
-# 			# Log in user
-# 			user = authenticate(username=username, password=password)
-# 			login(request,user)
-# 			messages.success(request, ("You have successfully registered! Welcome!"))
-# 			return redirect('home')
-	
-# 	return render(request, "register.html", {'form':form})
+def edit_profile(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id= request.user.id)
+        current_user_profile = Profile.objects.get(user__id = request.user.id)
+        form = SignUpForm(request.POST or None, request.FILES or None, instance = current_user)
+        pic_form = ProfilePictureForm(request.POST or None, request.FILES or None, instance=current_user_profile)
+        if request.method == 'POST':
+            if form.is_valid() and pic_form.is_valid():
+                form.save()
+                pic_form.save()
+                login(request, current_user)
+                messages.success(request,('Your profile is updated!'))
+                return redirect('home')
+        else:    
+            return render(request, 'edit_profile.html',{'form':form, 'pic_form':pic_form})
+    else:
+        messages.success(request,('you must be logged in to edit a profile'))
+        return redirect('home')

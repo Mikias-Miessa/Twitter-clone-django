@@ -20,6 +20,7 @@ class Profile(models.Model):
                                      blank=True,
                                      related_name="followed_by")
     date_modified= models.DateTimeField(User,auto_now=True)
+    profile_image = models.ImageField( blank=True,null= True, upload_to='images/')
     def __str__(self):
         return self.user.username
 

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 {% if profile %}
 <div class="container text-center">
@@ -40,6 +40,19 @@
 
         <div class="col-4">
             <br><br><br>
+            {% if profile.profile_image%}
+            <img src="{{ profile.profile_image.url }}" alt="Profile Picture"
+                style="width: 10rem; height: 10 rem; margin-left: 10rem; border-radius: 50%; border: 2px solid black; ">
+            {% else %}
+            <img src="{% static 'images/images.jpg' %}" alt="Profile Picture"
+                style="width: 10rem; height: 10 rem; margin-left: 10rem; border-radius: 50%; border: 2px solid black; ">
+            {% endif %}
+            <br><br>
+            {% if request.user.id == profile.user.id %}
+            <a href="{% url 'edit' %}" class="btn btn-outline-dark" style="margin-left: 10rem;">Edit profile</a>
+            {% endif %}
+            <br>
+            <hr style=" margin-left: 10rem;">
             <div class="card" style="width: 15rem; margin-left: 10rem;">
                 <div class="card-header text-bg-dark">
                     Following
@@ -67,7 +80,6 @@
                 </div>
             </div>
             <br>
-
 
         </div>
     </div>
