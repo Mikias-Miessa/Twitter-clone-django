@@ -3,51 +3,83 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-8 ">
-        <h1>Tweets</h1>
+    <div class="col-3 text-center" style="border-right: 1px solid rgb(169, 169, 169);">
+        <br><br><br><br>
+        <!-- {% if form %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn fw-bold "
+                style="border-radius: 9999px;padding-left: 32px;
+    padding-right: 32px;  color: white;   background-color: rgb(29, 155, 240);border-color: rgba(0, 0, 0, 0); ">Tweet!</button>
+        </form>
+       
+        {% endif %} -->
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="#hashtags" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <br><br><br><br><br>
+        <a href="{% url 'tweet' %}" class="btn fw-bold "
+            style="border-radius: 9999px;padding-left: 32px;
+            padding-right: 32px;  color: white;   background-color: rgb(29, 155, 240);border-color: rgba(0, 0, 0, 0); ">
+            Tweet</a>
+    </div>
+    <div class="col-8">
+        <h1 class="text-center">Tweets</h1>
         <hr>
         <br>
         {% for tweet in tweets %}
-        <div class="card border-light text-bg-dark" style="width: 50rem; margin-left: 2rem;">
+        <div class="card border-light" style="width: 50rem; margin-left: 2rem; background-color: white;">
             <div class="card-header fw-bold">
                 <div class="row">
 
-                    <div class="col-11">
-
-                        @{{ tweet.user }}
-                    </div>
-
-
-                    <div class="col-1">{% if tweet.user.profile.profile_image %}
+                    <div class="col-1">
+                        {% if tweet.user.profile.profile_image %}
                         <img src="{{ tweet.user.profile.profile_image.url }}" alt="Profile Picture"
-                            style="width: 50px; height: 50px; border: 1px solid white;" class="rounded-circle">
+                            style="width: 40px; height: 40px; border: 1px solid white;" class="rounded-circle">
                         {% else %}
 
                         <img src="{% static 'images/default.jpg' %}" alt="Profile Picture"
-                            style="width: 50px; height: 50px;  border: 1px solid white; " class="rounded-circle">
+                            style="width: 40px; height: 40px;  border: 1px solid white; " class="rounded-circle">
                         {% endif %}
+
+
+                    </div>
+
+
+                    <div class="col-9 align-self-center">
+                        @{{ tweet.user }}
                     </div>
                 </div>
             </div>
             <div class="card-body">
                 <p class="card-text">{{ tweet.body }}</p>
+                {% if tweet.image %}
+                <img src="{{ tweet.image.url }}" alt="tweet image" style="height: 250px; width: 300px;">
+                {% endif %}
+
             </div>
             <div class="card-footer fw-light fst-italic ">
-                {{ tweet.created_at }}
+                <div class="row">
+                    <div class="col-9">{{ tweet.created_at }}</div>
+                    <div class="col-3">
+                        {{tweet.like_counter}} likes
+                        <a href="{% url 'like_tweet' tweet.id %}">
+                            {% if user in tweet.likes.all %}
+                            <i class="fa-solid fa-heart"></i>
+                            {% else %}
+                            <i class="fa fa-heart-o"></i>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div> <br>
 
         {% endfor %}
-    </div>
-    <div class="col-4 text-center">
-        <br><br><br><br>
-        {% if form %}
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-outline-dark">Tweet!</button>
-        </form>
-        {% endif %}
+
     </div>
 </div>
 

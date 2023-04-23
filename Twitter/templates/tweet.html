@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-md-6 offset-md-3">
+    {% if user.is_authenticated %}
+    <h1 class="text-center">What's happening?</h1>
+
+    <hr>
+    <br>
+    <form method="POST" action="{% url 'tweet' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <!-- {{ pic_form.as_p }} -->
+        <div class="text-center">
+            <button type="submit" class="btn fw-bold "
+                style="border-radius: 9999px;padding-left: 32px;
+                        padding-right: 32px;  color: white;   background-color: rgb(29, 155, 240);border-color: rgba(0, 0, 0, 0); ">Tweet!</button>
+            <a href="{% url 'home' %}" class="btn fw-bold mx-3"
+                style="border-radius: 9999px;padding-left: 32px;
+                        padding-right: 32px;  color: white;   background-color: rgb(1, 101, 167);border-color: rgba(0, 0, 0, 0); ">
+                Cancel </a>
+        </div>
+
+    </form>
+    {% else %}
+    <h1>You must be logged in to post a tweet!</h1>
+
+    {% endif %}
+    {%endblock%}

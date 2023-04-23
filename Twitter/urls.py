@@ -9,4 +9,6 @@ urlpatterns = [
     path('logout',views.logout_user, name="logout"),
     path('register/',views.register_user, name="register"),
     path('edit_profile/',views.edit_profile, name="edit"),
+    path('like_tweet/<int:pk>', views.like_tweet, name = "like_tweet"),
+    path('tweet/', views.tweet, name = "tweet"),
 ]

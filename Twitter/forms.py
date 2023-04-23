@@ -3,6 +3,15 @@ from .models import Tweets, Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+
+class TweetPictureForm(forms.ModelForm):
+	image= forms.ImageField(label='upload picture')
+
+	class Meta:
+		model= Tweets
+		fields =('image',)
+
+
 class TweetForm(forms.ModelForm):
     body = forms.CharField( required=True,widget=forms.widgets.Textarea(
         attrs={
@@ -12,10 +21,11 @@ class TweetForm(forms.ModelForm):
     ),
     label="",
     )
+    image = image= forms.ImageField(label='upload picture', required=False, allow_empty_file= True)
 
     class Meta:
         model= Tweets
-        exclude=("user",)
+        exclude=("user","likes",)
 
 class SignUpForm(UserCreationForm):
 	

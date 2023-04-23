@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg" data-bs-theme="dark" style="background-color: #1D9BF0;">
     <div class="container-fluid">
-        <a class="navbar-brand " href="{% url 'home' %}">Twitter</a>
+        <a class="navbar-brand " href="{% url 'home' %}"><i class="fa-brands fa-twitter"></i></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -9,16 +9,24 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'profile_list' %}">Profiles</a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'profile' request.user.id %}">Your Profile</a>
                 </li>
+            </ul>
+            <ul class="ms-auto navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    <a class="nav-link" href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
                 </li>
-                {% else %}
+            </ul>
+
+            {% else %}
+            <ul class="me-auto navbar-nav  mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'login' %}">Login</a>
                 </li>
@@ -28,10 +36,10 @@
                 {% endif %}
 
             </ul>
-            <form class="d-flex" role="search">
+            <!-- <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            </form> -->
         </div>
     </div>
 </nav>

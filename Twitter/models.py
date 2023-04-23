@@ -5,12 +5,16 @@ from django.db.models.signals import post_save
 
 class Tweets(models.Model):
     user = models.ForeignKey(User, related_name="tweets",on_delete=models.DO_NOTHING)
-    body = models.CharField(max_length= 200)
+    body = models.CharField(max_length= 2000)
     created_at = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name="tweet_like" , blank=True)
+    image = models.ImageField( blank=True,null= True, upload_to='posts/')
+    def like_counter(self):
+        return self.likes.count()
 
     def __str__(self):
         return (
-            f"{self.user}" f"({self.created_at:%y-%m-%d %H:%M})" f"{self.body}..."
+            f"{self.user}" f"({self.created_at:%y-%m-%d %H:%M})"
         )
 
 class Profile(models.Model):

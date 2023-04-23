@@ -1,9 +1,30 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from .models import Profile, Tweets
 from django.contrib import messages
-from .forms import TweetForm, SignUpForm,ProfilePictureForm
+from .forms import TweetForm, SignUpForm,ProfilePictureForm,TweetPictureForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+
+
+def tweet(request):
+    if request.user.is_authenticated:
+        # pic_form = TweetPictureForm(request.POST or None, request.FILES or None)
+        form = TweetForm(request.POST or None, request.FILES or None)
+        if request.method == "POST":
+            if form.is_valid() :
+                tweet= form.save(commit= False)
+                # pic = pic_form.save( commit=False)
+                tweet.user = request.user
+                # pic.user = request.user
+                tweet.save()
+                # pic.save()
+                messages.success(request, "Your tweet is posted!")
+                return redirect('home')
+        else:
+            return render(request, 'tweet.html' , {'form':form})
+    else:
+        messages.success(request,'You must be logged in to tweet!')
+        return redirect('home')
 
 def home(request):
     if request.user.is_authenticated:
@@ -15,7 +36,11 @@ def home(request):
                 tweet.save()
                 messages.success(request, "Your tweet is posted!")
                 return redirect('home')
+        # current_user_profile = Profile.objects.get(user__id = request.user.id)
+        # following = current_user_profile.follows.all()
         tweets = Tweets.objects.all().order_by("-created_at")
+        # following_tweets = Tweets.objects.filter(user__in= current_user_profile.follows.all() ).order_by("-created_at")
+        
         return render(request, 'home.html', {"tweets":tweets,"form":form})
     else:
          tweets = Tweets.objects.all().order_by("-created_at")
@@ -32,7 +57,7 @@ def profile_list(request):
 def profile(request, pk):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user_id = pk)
-        tweets= Tweets.objects.filter(user_id = pk)
+        tweets= Tweets.objects.filter(user_id = pk).order_by("-created_at")
         current_user_profile = request.user.profile
         if request.method == "POST":
             
@@ -101,4 +126,17 @@ def edit_profile(request):
             return render(request, 'edit_profile.html',{'form':form, 'pic_form':pic_form})
     else:
         messages.success(request,('you must be logged in to edit a profile'))
+        return redirect('home')
+
+def like_tweet(request, pk):
+    if request.user.is_authenticated:
+        tweet = get_object_or_404(Tweets , id= pk )
+        # if tweet.likes.filter(id = request.user.id):
+        if request.user in tweet.likes.all():
+            tweet.likes.remove(request.user)
+        else:
+            tweet.likes.add(request.user)
+        return redirect(request.META.get("HTTP_REFERER"))
+    else:
+        messages.success(request,('you must be logged in'))
         return redirect('home')
