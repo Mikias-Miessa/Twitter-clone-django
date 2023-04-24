@@ -43,8 +43,9 @@ def home(request):
         
         return render(request, 'home.html', {"tweets":tweets,"form":form})
     else:
-         tweets = Tweets.objects.all().order_by("-created_at")
-         return render(request, 'home.html', {"tweets":tweets})
+        #  tweets = Tweets.objects.all().order_by("-created_at")
+         messages.success(request,"You must login first!")
+         return redirect('login')
 
 def profile_list(request):
     if request.user.is_authenticated: 
@@ -53,7 +54,7 @@ def profile_list(request):
         return render(request, 'profile_list.html', {"profiles" : profile})
     else:
         messages.success(request,("You must be logged in first to view profile list"))
-        return redirect('home')
+        return redirect('login')
 def profile(request, pk):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user_id = pk)
@@ -70,7 +71,7 @@ def profile(request, pk):
         return render(request,'profile.html',{'profile':profile, "tweets":tweets, "current_user":current_user_profile})
     else:
         messages.success(request,('You must be logged in first'))
-        return redirect('home')
+        return redirect('login')
 
 
 def login_user(request):
@@ -91,7 +92,7 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     messages.success(request,('You have logged out!'))
-    return redirect('home')
+    return redirect('login')
 
 def register_user(request):
     form = SignUpForm()
@@ -126,7 +127,7 @@ def edit_profile(request):
             return render(request, 'edit_profile.html',{'form':form, 'pic_form':pic_form})
     else:
         messages.success(request,('you must be logged in to edit a profile'))
-        return redirect('home')
+        return redirect('login')
 
 def like_tweet(request, pk):
     if request.user.is_authenticated:
@@ -139,4 +140,4 @@ def like_tweet(request, pk):
         return redirect(request.META.get("HTTP_REFERER"))
     else:
         messages.success(request,('you must be logged in'))
-        return redirect('home')
+        return redirect('login')
