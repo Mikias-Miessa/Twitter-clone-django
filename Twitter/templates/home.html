@@ -16,8 +16,9 @@
         </form>
        
         {% endif %} -->
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="#hashtags" aria-label="Search">
+        <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="Username" aria-label="Search" name="username">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <br><br><br><br><br>

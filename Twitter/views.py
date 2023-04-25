@@ -6,6 +6,37 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 
+
+def search_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        # users = User.objects.filter(username = username)
+        users = User.objects.filter(username__icontains=username)
+        # user_profile = get_object_or_404(User, username=username)
+        # user_profile = 
+        return render(request, 'search.html', {'users': users})
+
+def search(request):
+    if request.user.is_authenticated:
+        if request.method== 'POST':
+            username = request.POST["username"]
+            # users = User.objects.filter(username = username)
+            users = get_object_or_404(User, username=username)
+            user_profile = []
+            user_profile_list = []
+
+            for user in users:
+                user_profile.append(user.id)
+            for id in user_profile:
+                profile_list = Profile.objects.filter(user_id = id)
+                user_profile_list.append(profile_list)           
+            # profiles = Profile.objects.filter(user = users)
+            return render(request, 'search.html', { 'user_porfile_list':users})
+        else:
+            return render(request, 'search.html', {})
+    else:
+        messages.success(request,('You must Login!'))
+        return redirect('home')
 def tweet(request):
     if request.user.is_authenticated:
         # pic_form = TweetPictureForm(request.POST or None, request.FILES or None)

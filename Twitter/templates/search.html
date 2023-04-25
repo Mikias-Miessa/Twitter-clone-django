@@ -1,0 +1,48 @@
+{% block content %}
+{% load static %}
+<div class="col-md-6 offset-md-3">
+    <!-- {% if user %}
+    {%for profile in user_profile_list%}
+
+    <div class="card mb-3 text-bg-dark" style="max-width: 540px; margin-left: 25%;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                {% if user_profile_list.profile_image %}
+                <a href="{% url 'search' profile.user.id %}"><img src="{{ profile.profile_image.url }}"
+                        class="img-fluid rounded-start" alt="Profile Image" style="height: 180px; width: 200px;"></a>
+                {% else %}
+                <a href="{% url 'profile' profile.user.id %}"><img src="{% static 'images/default.jpg' %}"
+                        class="img-fluid rounded-start" alt="Profile Image"></a>
+                {% endif %}
+
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ profile.user.username }}</h5>
+                    <a href="{% url 'profile' profile.user.id %}" class="card-text">@{{ profile.user.username }}</a>
+                    <br>
+                    <p class="card-text"><small class="text-body-light">Last Update: {{profile.date_modified}}</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br /> <br />
+    <h1>{{ user }}</h1>
+    {% endfor %}
+    {% else %}
+
+    <h1>No Result</h1>
+    {% endif %} -->
+    {% if users %}
+    <ul>
+        {% for user in users %}
+        <li>{{ user }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No results found.</p>
+    {% endif %}
+
+</div>
+{%endblock%}
