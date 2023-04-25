@@ -6,22 +6,20 @@
 
     <div class="col-3 text-center" style="border-right: 1px solid rgb(169, 169, 169);">
         <br><br><br><br>
-        <!-- {% if form %}
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn fw-bold "
-                style="border-radius: 9999px;padding-left: 32px;
-    padding-right: 32px;  color: white;   background-color: rgb(29, 155, 240);border-color: rgba(0, 0, 0, 0); ">Tweet!</button>
-        </form>
-       
-        {% endif %} -->
+
         <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
             {% csrf_token %}
             <input class="form-control me-2" type="search" placeholder="Username" aria-label="Search" name="username">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
-        <br><br><br><br><br>
+        <br>
+        <div class="text-center">
+            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;">#funny</a>
+            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;">#technology</a>
+            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;">#art</a>
+            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;">#science</a>
+            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;">#politics</a>
+        </div><br>
         <a href="{% url 'tweet' %}" class="btn fw-bold "
             style="border-radius: 9999px;padding-left: 32px;
             padding-right: 32px;  color: white;   background-color: rgb(29, 155, 240);border-color: rgba(0, 0, 0, 0); ">
@@ -37,21 +35,15 @@
                 <div class="row">
 
                     <div class="col-1">
-                        {% if tweet.user.profile.profile_image %}
-                        <img src="{{ tweet.user.profile.profile_image.url }}" alt="Profile Picture"
+
+                        <img src="{{ tweet.user.profile.get_photo_url }}" alt="Profile Picture"
                             style="width: 40px; height: 40px; border: 1px solid white;" class="rounded-circle">
-                        {% else %}
-
-                        <img src="{% static 'images/default.jpg' %}" alt="Profile Picture"
-                            style="width: 40px; height: 40px;  border: 1px solid white; " class="rounded-circle">
-                        {% endif %}
-
 
                     </div>
 
 
                     <div class="col-9 align-self-center">
-                        @{{ tweet.user }}
+                        <a href="{% url 'profile' tweet.user.id %}" class="btn border-0">{{ tweet.user }}</a>
                     </div>
                 </div>
             </div>

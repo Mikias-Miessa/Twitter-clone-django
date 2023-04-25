@@ -8,14 +8,15 @@ from django.contrib.auth.models import User
 
 
 def search_user(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        # users = User.objects.filter(username = username)
-        users = User.objects.filter(username__icontains=username)
-        # user_profile = get_object_or_404(User, username=username)
-        # user_profile = 
-        return render(request, 'search.html', {'users': users})
-
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            users = User.objects.filter(username__icontains=username)
+            profile = Profile.objects.filter(user = users)
+            return render(request, 'search.html', {'users': users, 'profiles':profile})
+        return redirect('home')
+    messages.success(request, 'you must login first')
+    return redirect('login')
 def search(request):
     if request.user.is_authenticated:
         if request.method== 'POST':

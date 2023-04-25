@@ -27,6 +27,12 @@ class Profile(models.Model):
     profile_image = models.ImageField( blank=True,null= True, upload_to='images/')
     def __str__(self):
         return self.user.username
+    @property
+    def get_photo_url(self):
+        if self.profile_image and hasattr(self.profile_image, 'url'):
+            return self.profile_image.url
+        else:
+            return "/static/images/default.jpg"
 
 def create_profile(sender, instance, created, **kwargs):
     if created:

@@ -7,13 +7,9 @@
         <div class="col-3" style="border-right: 1px solid rgb(193, 193, 193);">
             <br><br><br>
             <div class="text-center">
-                {% if profile.profile_image%}
-                <img src="{{ profile.profile_image.url }}" alt="Profile Picture"
+
+                <img src="{{ profile.get_photo_url }}" alt="Profile Picture"
                     style="width: 200px; height: 200px; border: 1px solid #1D9BF0;" class="rounded-circle">
-                {% else %}
-                <img src="{% static 'images/default.jpg' %}" alt="Profile Picture"
-                    style="width: 200px; height: 200 px; border: 1px solid #1D9BF0; " class="rounded-circle">
-                {% endif %}
                 <br>
                 {% if request.user.id == profile.user.id %}
                 <a href="{% url 'edit' %}" class="btn"><i class="fa-solid fa-edit"></i></a>
@@ -44,18 +40,9 @@
                     <p class="card-text m-0">
                         {% for following in profile.follows.all %}
                         <a href="{% url 'profile' following.user.id %}" class="fw-bold btn d-flex">
-                            {% if following.user.profile.profile_image %}
-                            <img src="{{ following.user.profile.profile_image.url }}" alt="Profile Picture"
+                            <img src="{{ following.user.profile.get_photo_url }}" alt="Profile Picture"
                                 style="width: 50px; height: 50px; border: 1px solid white;" class="rounded-circle">
                             <span style="margin-top: 15px; margin-left: 15px;">{{following}}</span>
-
-                            {%else%}
-                            <img src="{% static 'images/default.jpg' %}" alt="Profile Picture"
-                                style="width: 50px; height: 50px;  border: 1px solid white; " class="rounded-circle">
-                            <span style="margin-top: 15px; margin-left: 15px;">{{following}}</span>
-
-                            {% endif %}
-
                         </a>
                         <hr style="margin: 0px;">
 
@@ -71,18 +58,10 @@
                 <div class="card-body">
                     <p class="card-text m-0">{% for follower in profile.followed_by.all %}
                         <a href="{% url 'profile' follower.user.id %}" class="fw-bold btn d-flex">
-                            {% if follower.user.profile.profile_image %}
-                            <img src="{{ follower.user.profile.profile_image.url }}" alt="Profile Picture"
+
+                            <img src="{{ follower.user.profile.get_photo_url }}" alt="Profile Picture"
                                 style="width: 50px; height: 50px; border: 1px solid white;" class="rounded-circle">
                             <span style="margin-top: 15px; margin-left: 15px;">{{follower}}</span>
-
-                            {%else%}
-                            <img src="{% static 'images/default.jpg' %}" alt="Profile Picture"
-                                style="width: 50px; height: 50px;  border: 1px solid white; " class="rounded-circle">
-                            <span style="margin-top: 15px; margin-left: 15px;">{{follower}}</span>
-
-                            {% endif %}
-
                         </a>
                         <hr style="margin: 0px;">
                         {%endfor%}
@@ -115,15 +94,9 @@
                     <div class="row">
 
                         <div class="col-1">
-                            {% if profile.profile_image %}
-                            <img src="{{ profile.profile_image.url }}" alt="Profile Picture"
+
+                            <img src="{{ profile.get_photo_url}}" alt="Profile Picture"
                                 style="width: 50px; height: 50px; border: 1px solid white;" class="rounded-circle">
-                            {% else %}
-
-                            <img src="{% static 'images/default.jpg' %}" alt="Profile Picture"
-                                style="width: 50px; height: 50px;  border: 1px solid white; " class="rounded-circle">
-                            {% endif %}
-
                         </div>
                         <div class="col-11">
                             {{ tweet.user }}
