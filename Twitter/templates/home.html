@@ -4,33 +4,19 @@
 
 <div class="row">
 
-    <div class="col-3 text-center" style="border-right: 1px solid rgb(169, 169, 169);">
-        <br><br><br><br>
+    <div class="col-2 text-center mx-4">
+        <br><br><br>
 
-        <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
-            {% csrf_token %}
-            <input class="form-control me-2" type="search" placeholder="Username" aria-label="Search" name="username">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        <br>
-        <div class="text-center">
-            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;">#funny</a>
-            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;">#technology</a>
-            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;">#art</a>
-            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;">#science</a>
-            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;">#politics</a>
-        </div><br>
-        <a href="{% url 'tweet' %}" class="btn fw-bold "
-            style="border-radius: 9999px;padding-left: 32px;
-            padding-right: 32px;  color: white;   background-color: rgb(29, 155, 240);border-color: rgba(0, 0, 0, 0); ">
-            Tweet</a>
+
+
+
     </div>
-    <div class="col-8">
+    <div class="col-6 " style="padding-right: 0;">
         <h1 class="text-center">Tweets</h1>
         <hr>
         <br>
         {% for tweet in tweets %}
-        <div class="card border-light" style="width: 50rem; margin-left: 2rem; background-color: white;">
+        <div class="card border-light shadow" style="width: 35rem; margin-left: 2rem; background-color: white;">
             <div class="card-header fw-bold">
                 <div class="row">
 
@@ -70,11 +56,40 @@
                 </div>
 
             </div>
-        </div> <br>
+        </div> <br> <br>
 
         {% endfor %}
 
     </div>
+    <div class="col-3 text-center" style="border-left: 1px solid rgb(169, 169, 169);">
+        <br><br>
+        <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="Username" aria-label="Search" name="username">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+
+        <br>
+        <div class="text-center">
+            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;" id="tags">#funny</a>
+            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;" id="tags">#technology</a>
+            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;" id="tags">#art</a>
+            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;" id="tags">#science</a>
+            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;" id="tags">#politics</a>
+        </div><br>
+    </div>
 </div>
+<style>
+    #tags {
+        background-color: rgba(58, 163, 255, 0.142);
+
+        margin: 5px;
+    }
+
+    #tags:hover {
+
+        background-color: rgba(58, 163, 255, 0.464);
+    }
+</style>
 
 {% endblock %}

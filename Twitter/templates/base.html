@@ -11,10 +11,27 @@
 </head>
 
 <body>
+    {% if user.is_authenticated %}
+    {% include 'sidebar.html'%}
+    {% endif %}
+
+    {% if messages %}
+    {% for message in messages %}
+
+    <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+
+    {% endfor %}
+    {% endif %}
     {% include 'navbar.html'%}
-    <br>
+
+
     <div class="container">
-        {% if messages %}
+
+        <!-- {% if messages %}
         {% for message in messages %}
 
         <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
@@ -24,7 +41,7 @@
 
 
         {% endfor %}
-        {% endif %}
+        {% endif %} -->
         {% block content%}
         {% endblock %}
     </div>

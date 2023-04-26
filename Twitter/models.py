@@ -9,13 +9,16 @@ class Tweets(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name="tweet_like" , blank=True)
     image = models.ImageField( blank=True,null= True, upload_to='posts/')
+    def __str__(self):
+        return (
+            f"{self.user}"
+        )
+   
+   
     def like_counter(self):
         return self.likes.count()
 
-    def __str__(self):
-        return (
-            f"{self.user}" f"({self.created_at:%y-%m-%d %H:%M})"
-        )
+   
 
 class Profile(models.Model):
     user = models.OneToOneField(User , on_delete= models.CASCADE)
