@@ -9,6 +9,7 @@ class Tweets(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name="tweet_like" , blank=True)
     image = models.ImageField( blank=True,null= True, upload_to='posts/')
+    tag = models.CharField( blank=True,null= True,max_length=30)
     def __str__(self):
         return (
             f"{self.user}"

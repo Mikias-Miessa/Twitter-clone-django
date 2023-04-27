@@ -35,6 +35,9 @@
             </div>
             <div class="card-body">
                 <p class="card-text">{{ tweet.body }}</p>
+                {% if tweet.tag %}
+                <p class="card-text" style="color: rgba(27, 103, 255, 0.978);">#{{ tweet.tag }}</p>
+                {% endif %}
                 {% if tweet.image %}
                 <img src="{{ tweet.image.url }}" alt="tweet image" style="height: 250px; width: 300px;">
                 {% endif %}
@@ -71,11 +74,16 @@
 
         <br>
         <div class="text-center">
-            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;" id="tags">#funny</a>
-            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;" id="tags">#technology</a>
-            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;" id="tags">#art</a>
-            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;" id="tags">#science</a>
-            <a href="#" class="btn border-0 text-primary fw-bold" style="padding: 10px;" id="tags">#politics</a>
+            <form action="{% url 'hashtag' %}" method="POST">
+                {% csrf_token %}
+                {% for tweet in tweets %}
+                {% if tweet.tag %}
+                <button class="btn border-0 text-primary fw-bold" name="tag" value="{{tweet.tag}}" type="submit"
+                    style="padding: 10px; " id="tags">#{{tweet.tag}}</button>
+                {% endif %}
+                {% endfor %}
+            </form>
+
         </div><br>
     </div>
 </div>

@@ -5,14 +5,21 @@ from django.shortcuts import render, redirect,get_object_or_404
 from .forms import TweetForm, SignUpForm,ProfilePictureForm
 from django.contrib.auth import authenticate, login, logout
 
-
+def hashtag(request):
+    if request.user.is_authenticated:
+        if request.method=='POST':
+            hashtag = request.POST.get('tag')
+            tweet = Tweets.objects.filter( tag = hashtag)
+            return render(request, 'hashtag.html', {'tweets':tweet})
+        return redirect('home')
+    return redirect('login')
 
 
 def search_user(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             username = request.POST.get('username')
-            users = User.objects.filter(username__icontains=username)
+            users = User.objects.filter(username__icontains= username)
             profile = Profile.objects.filter(user = users)
             return render(request, 'search.html', {'users': users, 'profiles':profile})
         return redirect('home')
@@ -119,18 +126,19 @@ def profile_list(request):
 
 def profile(request, id):
     if request.user.is_authenticated:
+        tweets= Tweets.objects.filter(user_id = id)[::-1]
         profile = Profile.objects.get(user_id = id)
-        tweets= Tweets.objects.filter(user_id = id).order_by("-created_at")
-        current_user_profile = request.user.profile
+        
+        user_profile = request.user.profile
         if request.method == "POST":
             
             action = request.POST['follow']
             if action == "follow":
-                current_user_profile.follows.add(profile)
+                user_profile.follows.add(profile)
             else:
-                current_user_profile.follows.remove(profile)
-            current_user_profile.save()    
-        return render(request,'profile.html',{'profile':profile, "tweets":tweets, "current_user":current_user_profile})
+                user_profile.follows.remove(profile)
+            user_profile.save()    
+        return render(request,'profile.html',{'profile':profile, "tweets":tweets, "current_user":user_profile})
     else:
         messages.success(request,('You must be logged in first'))
         return redirect('login')
