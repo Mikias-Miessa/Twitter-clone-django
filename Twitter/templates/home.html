@@ -36,7 +36,16 @@
             <div class="card-body">
                 <p class="card-text">{{ tweet.body }}</p>
                 {% if tweet.tag %}
-                <p class="card-text" style="color: rgba(27, 103, 255, 0.978);">#{{ tweet.tag }}</p>
+                <form action="{% url 'hashtag' %}" method="POST">
+                    {% csrf_token %}
+
+                    {% if tweet.tag %}
+                    <button class="btn border-0" name="tag" value="{{tweet.tag}}" type="submit"
+                        style="padding: 10px; color: rgb(14, 126, 255); ">#{{tweet.tag}}</button>
+                    {% endif %}
+
+                </form>
+
                 {% endif %}
                 {% if tweet.image %}
                 <img src="{{ tweet.image.url }}" alt="tweet image" style="height: 250px; width: 300px;">
@@ -74,6 +83,7 @@
 
         <br>
         <div class="text-center">
+
             <form action="{% url 'hashtag' %}" method="POST">
                 {% csrf_token %}
                 {% for tweet in tweets %}

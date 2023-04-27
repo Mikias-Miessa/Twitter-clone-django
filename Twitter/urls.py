@@ -13,6 +13,7 @@ urlpatterns = [
     path('register/',views.register_user, name="register"),
     path('edit_profile/',views.edit_profile, name="edit"),
     path('hashtags/', views.hashtag, name='hashtag'),
+    path('delete_tweet/<int:id>',views.delete_tweet, name='delete_tweet')
     
     
 ]

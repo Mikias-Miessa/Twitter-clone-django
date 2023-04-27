@@ -10,7 +10,9 @@ def hashtag(request):
         if request.method=='POST':
             hashtag = request.POST.get('tag')
             tweet = Tweets.objects.filter( tag = hashtag)
-            return render(request, 'hashtag.html', {'tweets':tweet})
+           
+            
+            return render(request, 'hashtag.html', {'tweets':tweet })
         return redirect('home')
     return redirect('login')
 
@@ -19,13 +21,22 @@ def search_user(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             username = request.POST.get('username')
-            users = User.objects.filter(username__icontains= username)
-            profile = Profile.objects.filter(user = users)
-            return render(request, 'search.html', {'users': users, 'profiles':profile})
+            if  username:
+                users = User.objects.filter(username__icontains= username)
+                profile = Profile.objects.filter(user = users)
+                return render(request, 'search.html', {'users': users, 'profiles':profile})
+            else:
+                return redirect('home')
         return redirect('home')
     messages.success(request, 'you must login first')
     return redirect('login')
 
+
+def delete_tweet(request, id):
+
+    tweet = get_object_or_404(Tweets , id= id )
+    tweet.delete()
+    return redirect(request.META.get("HTTP_REFERER"))
 
 def register_user(request):
     form = SignUpForm()
@@ -93,6 +104,7 @@ def tweet(request):
 
 def home(request):
     if request.user.is_authenticated:
+        
         form= TweetForm(request.POST or None)
         if request.method == "POST":
             if form.is_valid:
