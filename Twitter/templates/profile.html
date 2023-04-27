@@ -109,8 +109,10 @@
                             <a href="{% url 'profile' tweet.user.id %}" class="btn border-0">{{ tweet.user }}</a>
                         </div>
                         <div class="col-1">
+                            {% if current_user.user.username == profile.user.username %}
                             <a href="{% url 'delete_tweet' tweet.id %}" class="text-secondary"><i
                                     class="fa fa-close"></i></a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
