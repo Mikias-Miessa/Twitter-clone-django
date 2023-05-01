@@ -4,79 +4,12 @@
 {% if profile %}
 <div class="container ">
     <div class="row">
-        <div class="col-2" style="border-right: 1px solid rgb(193, 193, 193); margin-right: 40px;">
-            <br><br><br>
-            <div class="text-center">
+        <div class="col-2" style=" margin-right: 40px;">
 
-                <img src="{{ profile.get_photo_url }}" alt="Profile Picture"
-                    style="width: 200px; height: 200px; border: 1px solid #1D9BF0;" class="rounded-circle">
-                <br>
-                {% if request.user.id == profile.user.id %}
-                <a href="{% url 'edit' %}" class="btn"><i class="fa-solid fa-edit"></i></a>
-                {% endif %}
-                <br>
-
-            </div>
-            <div class="text-center">
-                {% if current_user.user.username != profile.user.username %}
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    {% if profile in user.profile.follows.all %}
-                    <button class=" btn " name="follow" value="unfollow" type="submit"
-                        style="border-radius: 9999px;padding-left: 32px;
-                padding-right: 32px;  color: white;   background-color: rgb(29, 155, 240);border-color: rgba(0, 0, 0, 0); ">Unfollow</button>
-
-                    {% else %}
-                    <button class=" btn " name="follow" value="follow" type="submit"
-                        style="border-radius: 9999px;padding-left: 32px;
-                padding-right: 32px;  color: white;   background-color: rgb(29, 155, 240);border-color: rgba(0, 0, 0, 0); ">follow</button>
-                    {% endif %}
-                </form>
-                {% endif %}
-            </div>
-            <hr>
-            <div class="card" style="width: 15rem; border: 0px; margin-left: 1rem;">
-                <div class="card-header" style="background-color: #1D9BF0; color:white;border-radius: 5px;">
-                    Following
-                </div>
-                <div class="card-body">
-
-                    <p class="card-text m-0">
-                        {% for following in profile.follows.all %}
-                        <a href="{% url 'profile' following.user.id %}" class="fw-bold btn d-flex">
-                            <img src="{{ following.user.profile.get_photo_url }}" alt="Profile Picture"
-                                style="width: 50px; height: 50px; border: 1px solid white;" class="rounded-circle">
-                            <span style="margin-top: 15px; margin-left: 15px;">{{following}}</span>
-                        </a>
-                        <hr style="margin: 0px;">
-
-                        {%endfor%}
-                    </p>
-                </div>
-            </div>
-            <br>
-            <div class="card" style="width: 15rem; border: 0px; margin-left: 1rem;">
-                <div class="card-header" style="background-color: #1D9BF0; color:white;border-radius: 5px;">
-                    Followers
-                </div>
-                <div class="card-body">
-                    <p class="card-text m-0">{% for follower in profile.followed_by.all %}
-                        <a href="{% url 'profile' follower.user.id %}" class="fw-bold btn d-flex">
-
-                            <img src="{{ follower.user.profile.get_photo_url }}" alt="Profile Picture"
-                                style="width: 50px; height: 50px; border: 1px solid white;" class="rounded-circle">
-                            <span style="margin-top: 15px; margin-left: 15px;">{{follower}}</span>
-                        </a>
-                        <hr style="margin: 0px;">
-                        {%endfor%}
-                    </p>
-
-                </div>
-            </div>
-            <br>
         </div>
 
-        <div class="col-6" style="border-right: 1px solid rgb(190, 190, 190); padding-right: 0px;">
+        <div class="col-6"
+            style="border-right: 1px solid rgb(190, 190, 190); padding-right: 0px; background-color: white;">
 
 
 
@@ -176,7 +109,7 @@
                 {% endif %}
             </div>
             <hr>
-            <div class="card" style="width: 15rem; border: 0px; margin-left: 2rem;">
+            <div class="card shadow-sm" style="width: 15rem; border: 0px; margin-left: 2rem; ">
                 <div class="card-header" style="background-color: #1D9BF0; color:white;border-radius: 5px;">
                     Following
                 </div>
@@ -196,7 +129,7 @@
                 </div>
             </div>
             <br>
-            <div class="card" style="width: 15rem; border: 0px; margin-left: 2rem;">
+            <div class="card shadow-sm" style="width: 15rem; border: 0px; margin-left: 2rem;">
                 <div class="card-header" style="background-color: #1D9BF0; color:white;border-radius: 5px;">
                     Followers
                 </div>

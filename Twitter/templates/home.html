@@ -11,7 +11,7 @@
 
 
     </div>
-    <div class="col-6 " style="padding-right: 0;">
+    <div class="col-6 " style="padding-right: 0;background-color: rgb(255, 255, 255);">
         <h1 class="text-center">Tweets</h1>
         <hr>
         <br>
@@ -73,12 +73,13 @@
         {% endfor %}
 
     </div>
-    <div class="col-3 text-center" style="border-left: 1px solid rgb(169, 169, 169);">
+    <div class="col-3 text-center" style="border-left: 1px solid rgb(169, 169, 169); background-color: aliceblue;">
         <br><br>
         <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
             {% csrf_token %}
             <input class="form-control me-2" type="search" placeholder="Username" aria-label="Search" name="username">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline" style="background-color: rgb(41, 155, 255); color: white;"
+                type="submit">Search</button>
         </form>
 
         <br>
